@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Sales Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+    font-family:'Poppins',sans-serif;
+    margin:0;
+    background:url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTX1M1xEdRnfnybSWW8VQS95X1cEA3s7SzmnQ&s") no-repeat center/cover;
+}
+
+.container{
+    width:90%;
+    margin:60px auto;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(15px);
+    padding:30px;
+    border-radius:20px;
+}
+
+h2{
+    text-align:center;
+    color:white;
+    margin-bottom:20px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    color:white;
+}
+
+th, td{
+    padding:12px;
+    text-align:center;
+}
+
+th{
+    font-weight:600;
+}
+
+tr{
+    transition:0.3s;
+}
+
+tr:hover{
+    background:rgba(255,255,255,0.2);
+}
+
+.badge{
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:12px;
+    background:#27ae60;
+    color:white;
+}
+
+.total-box{
+    margin-top:20px;
+    text-align:right;
+    font-size:18px;
+    color:white;
+    font-weight:600;
+}
+
+</style>
+</head>
+
+<body>
+
+{% include "navbar.html" %}
+
+<div class="container">
+
+<h2>Sales History</h2>
+
+<table>
+<tr>
+<th>ID</th>
+<th>Crop</th>
+<th>Quantity Sold</th>
+<th>Price/Unit</th>
+</tr>
+
+{% set total = 0 %}
+
+{% for sale in sales %}
+<tr>
+<td>{{ sale[0] }}</td>
+<td>{{ sale[1] }}</td>
+<td>{{ sale[3] }}</td>
+<td>{{ sale[4] }}</td>
+</tr>
+{% endfor %}
+
+</table>
+
+
+</div>
+
+</body>
+</html>

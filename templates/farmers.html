@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Farmers List | Agri ERP</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+body{
+    background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTX1M1xEdRnfnybSWW8VQS95X1cEA3s7SzmnQ&s') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.overlay{
+    background: rgba(0,0,0,0.7);
+    min-height: 100vh;
+    padding: 40px 0;
+}
+
+/* Glass card */
+.card{
+    background: rgba(255,255,255,0.95);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+/* Table styling */
+.table thead{
+    background-color: #198754;
+    color: white;
+}
+
+.table tbody tr{
+    transition: 0.3s;
+}
+
+.table tbody tr:hover{
+    background-color: #d4edda;
+    transform: scale(1.01);
+}
+
+/* Animations */
+@keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
+.btn-custom{
+    border-radius: 25px;
+}
+
+.search-box{
+    max-width: 300px;
+}
+
+</style>
+</head>
+
+<body>
+
+{% include "navbar.html" %}
+
+<div class="overlay">
+<div class="container">
+
+<div class="card shadow-lg p-4">
+
+<h2 class="text-center text-success mb-4">🌾 Registered Farmers</h2>
+
+<div class="d-flex justify-content-between mb-3">
+    <a href="/add_farmer" class="btn btn-success btn-custom">➕ Add New Farmer</a>
+
+    <input type="text" id="searchInput" class="form-control search-box" placeholder="🔍 Search Farmer...">
+</div>
+
+<div class="table-responsive">
+<table class="table table-bordered table-hover align-middle text-center">
+
+<thead>
+<tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Phone</th>
+    <th>Address</th>
+    <th>Land (Acres)</th>
+</tr>
+</thead>
+
+<tbody id="farmerTable">
+
+{% for farmer in farmers %}
+<tr>
+    <td>{{ farmer["id"] }}</td>
+    <td>{{ farmer["name"] }}</td>
+    <td>{{ farmer["phone"] }}</td>
+    <td>{{ farmer["address"] }}</td>
+    <td>{{ farmer["land_area"] }}</td>
+</tr>
+{% endfor %}
+
+</tbody>
+
+</table>
+</div>
+
+</div>
+</div>
+</div>
+
+<script>
+// Simple search filter
+document.getElementById("searchInput").addEventListener("keyup", function() {
+    let filter = this.value.toLowerCase();
+    let rows = document.querySelectorAll("#farmerTable tr");
+
+    rows.forEach(row => {
+        row.style.display = row.innerText.toLowerCase().includes(filter) ? "" : "none";
+    });
+});
+</script>
+
+</body>
+</html>

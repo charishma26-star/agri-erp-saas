@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Farmer Performance Report</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+    font-family:'Poppins',sans-serif;
+    margin:0;
+    background:url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTX1M1xEdRnfnybSWW8VQS95X1cEA3s7SzmnQ&s") no-repeat center/cover;
+}
+
+.container{
+    width:90%;
+    margin:60px auto;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(15px);
+    padding:30px;
+    border-radius:20px;
+}
+
+h2{
+    text-align:center;
+    color:white;
+}
+
+.actions{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:20px;
+}
+
+button{
+    padding:10px 18px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-family:'Poppins',sans-serif;
+}
+
+.back{
+    background:#3498db;
+    color:white;
+}
+
+.download{
+    background:#27ae60;
+    color:white;
+}
+
+.back:hover{background:#2c80b4;}
+.download:hover{background:#1e8449;}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+    color:white;
+}
+
+th,td{
+    padding:12px;
+    text-align:center;
+}
+
+th{
+    font-weight:600;
+}
+
+tr{
+    transition:0.3s;
+}
+
+tr:hover{
+    background:rgba(255,255,255,0.2);
+}
+
+.profit{
+    font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+{% include "navbar.html" %}
+
+<div class="container">
+
+<h2>Farmer Performance Report</h2>
+
+<div class="actions">
+
+<a href="/">
+<button class="back">⬅ Back to Dashboard</button>
+</a>
+
+<a href="/export_farmer_report">
+<button class="download">📄 Download PDF Report</button>
+</a>
+
+</div>
+
+<table>
+
+<tr>
+<th>Farmer Name</th>
+<th>Total Crops</th>
+<th>Total Revenue (₹)</th>
+<th>Total Expenses (₹)</th>
+<th>Net Profit (₹)</th>
+</tr>
+
+{% for row in report %}
+<tr>
+<td>{{ row[0] }}</td>
+<td>{{ row[1] }}</td>
+<td>₹ {{ row[2] }}</td>
+<td>₹ {{ row[3] }}</td>
+<td class="profit">₹ {{ row[4] }}</td>
+</tr>
+{% endfor %}
+
+</table>
+
+</div>
+
+</body>
+</html>

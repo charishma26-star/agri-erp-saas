@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<meta charset="UTF-8">
+<title>Agri ERP Login</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body {
+    background: url('https://www.shutterstock.com/image-photo/farmer-rubber-boots-walks-raising-260nw-2517790545.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+.overlay {
+    background: rgba(0,0,0,0.6);
+    height: 100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.card {
+    animation: fadeIn 1s ease-in-out;
+    border-radius:20px;
+}
+
+.leaves img {
+    position: absolute;
+    width: 60px;
+    animation: fall 10s linear infinite;
+}
+
+.leaves img:nth-child(1) { left: 10%; animation-delay: 0s; }
+.leaves img:nth-child(2) { left: 50%; animation-delay: 3s; }
+.leaves img:nth-child(3) { left: 80%; animation-delay: 6s; }
+
+@keyframes fall {
+    0% { top: -10%; transform: rotate(0deg); }
+    100% { top: 110%; transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+    from {opacity:0; transform: translateY(-20px);}
+    to {opacity:1; transform: translateY(0);}
+}
+</style>
+</head>
+
+<body>
+<div class="leaves">
+    <img src="https://i.imgur.com/8QfQ4eP.png">
+    <img src="https://i.imgur.com/8QfQ4eP.png">
+    <img src="https://i.imgur.com/8QfQ4eP.png">
+</div>
+<div class="overlay">
+<div class="card p-4 shadow-lg" style="width:400px;">
+    <h3 class="text-center text-success">🌾 Agri Cooperative Login</h3>
+        {% with messages = get_flashed_messages() %}
+           {% if messages %}
+             {% for message in messages %}
+               <p style="color:red; font-weight:bold;">{{ message }}</p>
+             {% endfor %}
+           {% endif %}
+        {% endwith %}
+    <form method="POST" action="/login">
+        <div class="g-recaptcha" data-sitekey="6LfrpXcsAAAAAB156bGzLmFWVoKkl9Ax4AnDseXy"></div>
+        <div class="mb-3">
+            <label>Name</label>
+            <input type="text" name="username" class="form-control" pattern="[A-Za-z ]+" required>
+            <button type="button" onclick="startVoice()">🎤 Speak Username</button>
+        </div>
+
+        <div class="mb-3">
+            <label>Password</label>
+            <input type="password" name="password" class="form-control"
+            pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*]).{5,}$"
+            required>
+            <small class="text-muted">Min 5 chars, 1 letter, 1 number, 1 special char</small>
+        </div>
+
+        <div class="mb-3">
+            <label>Enter CAPTCHA: {{captcha}}</label>
+            <input type="text" name="captcha" class="form-control" required>
+        </div>
+
+        <div class="form-check mb-3">
+            <input type="checkbox" class="form-check-input" name="remember" id="remember">
+            <label class="form-check-label">Remember Me</label>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">Login</button>
+    </form>
+
+    <hr>
+    <p class="text-center">
+        <a href="/signup">Create Account</a>
+    </p>
+
+    <!-- Language Switch -->
+    <div class="text-center mt-3">
+        <button onclick="setLang('en')" class="btn btn-sm btn-outline-light">English</button>
+        <button onclick="setLang('ta')" class="btn btn-sm btn-outline-light">தமிழ்</button>
+        <button onclick="setLang('hi')" class="btn btn-sm btn-outline-light">हिंदी</button>
+    </div>
+</div>
+</div>
+
+<script>
+function setLang(lang){
+    if(lang=="ta"){
+        alert("தமிழ் மொழி தேர்ந்தெடுக்கப்பட்டது");
+    }
+    if(lang=="hi"){
+        alert("हिंदी भाषा चुनी गई");
+    }
+    if(lang=="en"){
+        alert("English Selected");
+    }
+}
+function startVoice() {
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = "en-IN";
+
+    recognition.start();
+
+    recognition.onresult = function(event) {
+        document.querySelector('input[name="username"]').value =
+            event.results[0][0].transcript;
+    };
+}
+</script>
+
+</body>
+</html>

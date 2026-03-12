@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Agri ERP - Create Account</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSh-e0CEs1IlJXhyFJ-sbI8XnHqqcMD1-d-Q&s") no-repeat center center/cover;
+        overflow: hidden;
+    }
+
+    /* Dark overlay */
+    body::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        backdrop-filter: blur(3px);
+    }
+
+    .container {
+        position: relative;
+        width: 380px;
+        padding: 40px;
+        background: rgba(255,255,255,0.15);
+        border-radius: 15px;
+        backdrop-filter: blur(15px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        animation: fadeIn 1.2s ease-in-out;
+        color: white;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        font-size: 28px;
+    }
+
+    .input-group {
+        position: relative;
+        margin-bottom: 25px;
+    }
+
+    .input-group input {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        outline: none;
+        border-radius: 8px;
+        background: rgba(255,255,255,0.2);
+        color: white;
+        font-size: 15px;
+        transition: 0.3s;
+    }
+
+    .input-group input:focus {
+        background: rgba(255,255,255,0.3);
+        box-shadow: 0 0 10px #00ff99;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        background: linear-gradient(45deg, #00c853, #64dd17);
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.4s;
+    }
+
+    button:hover {
+        transform: scale(1.05);
+        background: linear-gradient(45deg, #64dd17, #00c853);
+        box-shadow: 0 0 15px #00ff99;
+    }
+
+    .strength {
+        font-size: 13px;
+        margin-top: 5px;
+    }
+
+    .login-link {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .login-link a {
+        color: #90ff90;
+        text-decoration: none;
+    }
+
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+
+    .flash {
+        text-align: center;
+        margin-bottom: 15px;
+        font-weight: bold;
+        color: #ff8080;
+    }
+
+    .toggle-password {
+        position: absolute;
+        right: 10px;
+        top: 12px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>🌾 Create Farmer Account</h2>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="flash">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+
+        <div class="input-group">
+            <input type="text" name="username"
+                   placeholder="Enter Your Name"
+                   pattern="[A-Za-z ]+"
+                   title="Only letters allowed"
+                   required>
+        </div>
+
+        <div class="input-group">
+            <input type="password" id="password" name="password"
+                   placeholder="Create Password"
+                   pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*]).{5,}$"
+                   required>
+            <span class="toggle-password" onclick="togglePassword()">👁</span>
+            <div class="strength" id="strength"></div>
+        </div>
+
+        <button type="submit">Sign Up</button>
+
+    </form>
+
+    <div class="login-link">
+        Already have an account? <a href="/login">Login here</a>
+    </div>
+
+</div>
+
+<script>
+function togglePassword() {
+    const pwd = document.getElementById("password");
+    pwd.type = pwd.type === "password" ? "text" : "password";
+}
+
+const passwordInput = document.getElementById("password");
+const strengthText = document.getElementById("strength");
+
+passwordInput.addEventListener("input", function() {
+    const val = passwordInput.value;
+    if (val.length < 5) {
+        strengthText.innerHTML = "Weak password";
+        strengthText.style.color = "red";
+    } else if (val.match(/[A-Za-z]/) && val.match(/[0-9]/) && val.match(/[!@#$%^&*]/)) {
+        strengthText.innerHTML = "Strong password";
+        strengthText.style.color = "lightgreen";
+    } else {
+        strengthText.innerHTML = "Medium password";
+        strengthText.style.color = "orange";
+    }
+});
+</script>
+
+</body>
+</html>
