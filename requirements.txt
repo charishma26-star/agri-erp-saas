@@ -4,3 +4,4 @@ SQLAlchemy
 reportlab
 waitress
 flask-bcrypt
+requests
