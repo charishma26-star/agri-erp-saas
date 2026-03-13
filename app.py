@@ -482,10 +482,9 @@ def sell_crop(crop_id):
 
         total_amount = quantity_sold * price_per_unit
 
-        # Insert into sales table
         cursor.execute("""
-            INSERT INTO sales (crop_id, quantity_sold, price_per_unit, total_amount)
-            VALUES (?, ?, ?, ?)
+            INSERT INTO sales (crop_id, quantity_sold, price_per_unit, total_amount, sale_date)
+            VALUES (?, ?, ?, ?, datetime('now'))
         """, (crop_id, quantity_sold, price_per_unit, total_amount))
 
         # Reduce stock
@@ -835,7 +834,12 @@ def delete_crop(crop_id):
     conn.commit()
     conn.close()
 
-    return redirect("/crops")
+    return redirect("/crops") 
+
+from waitress import serve
+import os
+from app import app  # make sure this imports your Flask app variable
+
 if __name__ == "__main__":
-    init_db()
-    app.run(debug=True) 
+    port = int(os.environ.get("PORT", 5000))
+    serve(app, host="0.0.0.0", port=port)
